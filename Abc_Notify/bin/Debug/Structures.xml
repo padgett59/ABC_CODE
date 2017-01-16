@@ -1,0 +1,106 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Structures
+</name>
+</assembly>
+<members>
+<member name="P:Prefix.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Prefix.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:Prefix.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="F:Prefix.DeclareWarehouse.EnumContBandSegments.Blend">
+	<summary>
+ Blend value is for products which are supposed to blend the continuous band proportionally
+ between segments.
+ </summary>
+</member><member name="F:Prefix.DeclareWarehouse.EnumContBandSegments.Adjust">
+	<summary>
+ Adjust value is for products which adjust the continuous band down for each previously issued segment.
+ </summary>
+</member><member name="T:Prefix.DeclareWarehouse.EnumContBandSegments">
+	<summary>
+ Continuous Band for Multiple Segments Enum
+ </summary>
+</member><member name="F:Prefix.DeclareWarehouse.EnumStpVsFyPrm.Sec">
+	<summary>
+ Sec value is for products which do not compare between the first year 
+ premium and the calculated surrender target premium (based on specified amount).
+ </summary>
+</member><member name="F:Prefix.DeclareWarehouse.EnumStpVsFyPrm.PrmFy">
+	<summary>
+ PrmFy value is for products which use the minimum of 
+ Premium in the First Year and the surrender target premium (based on specified amount).
+ </summary>
+</member><member name="F:Prefix.DeclareWarehouse.EnumStpVsFyPrm.PrmPaidInTgtPeriod">
+	<summary>
+ PrmPaidInTargetPeriod value is for products which use the minimum of Premium paid during 
+ the commission target period and the surrender target premium (based on specified amount).
+ </summary>
+</member><member name="F:Prefix.DeclareWarehouse.EnumStpVsFyPrm.PrmMinusWd">
+	<summary>
+ PrmMinusWd value is for products which use the accumulated Premium paid minus accumulated Withdrawals 
+ </summary>
+</member><member name="T:Prefix.DeclareWarehouse.EnumStpVsFyPrm">
+	<summary>
+ Surrender Target Premium
+ </summary>
+</member><member name="T:Prefix.DeclareWarehouse.EnumAllocationTypeFlags">
+	<summary>
+ Due to technical constraints, Funds available by allocation type were added as a bitmask field.
+ This enumeration represents the bit fields for each type.  These values should never be stored at a policy
+ level, they represent logic for the UI only.
+ </summary>
+	<remarks></remarks>
+</member><member name="F:Prefix.StructureIntCollectionBase`1._items">
+	<summary>
+ A lookup of items in the collection, with the item being the key, and the
+ index the item is in this collection as the value
+ </summary>
+	<remarks>
+ Should be cleaned up when the class is changed to use generics
+ </remarks>
+</member><member name="M:Prefix.StructureIntCollectionBase`1.Add(`0)">
+	<summary>
+ Inserts an object into the collection
+ </summary>
+	<param name="item">Object to add to the collection.</param>
+	<remarks>
+ For this collection type, this is about the same as overriding the add method.
+ Should be changed to use generics when the rest of the class is changed
+ </remarks>
+</member><member name="M:Prefix.StructureIntCollectionBase`1.Clear">
+	<summary>
+ Clears the items in the collection.
+ </summary>
+	<remarks>
+ Also clears the dictionary.
+ </remarks>
+</member><member name="M:Prefix.StructureIntCollectionBase`1.GetIndex(System.Int32)">
+	<summary>
+ Looks up the index of an item, the IValueType.Value which is passed in as an integer.
+ </summary>
+	<param name="value">IValueType.Value to look up the index of in the collection.</param>
+	<returns>The index of the item, or 0 if the item is not found</returns>
+	<remarks>Returns 0 if the item is not found</remarks>
+</member><member name="T:Prefix.StructureIntCollectionBase`1">
+	<summary>
+ Collection which holds an object, and has a fast GetIndex method.
+ Used in rates and factors.
+ </summary>
+	<remarks>
+ Should be cleaned up in the future.
+ </remarks>
+</member>
+</members>
+</doc>

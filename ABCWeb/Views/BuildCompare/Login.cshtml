@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ABC.Web.Models.NotifyRecipient>
+
+@{
+    ViewBag.Title = "ABC Login";
+}
+
+<h2><i><b>Automated Build Compare Tool </b></i></h2>
+<h3>Login</h3>
+
+    <table class="center">
+        <tr>
+            <td width="50px"></td>
+            <td>
+                <div id="selectDiv">
+                    Please tell us who you are (first time only).<br><br>
+                    Select your UserId from the list below and click "Go". If you do not see your id, select "Not Listed".<br><br>
+                    <select id="selUserId" size="9">
+                        @foreach (string userId in ViewBag.userIdList)
+                        {
+                            <option value="@Html.Raw(userId)" >@Html.Raw(userId) </option>
+                        }
+                        <option value="0">Not Listed</option>
+                    </select>
+                </div>
+                <div id="newUserDiv" style="display:none">
+                    <br><u><b>Please enter</b></u>
+                    <br><br>
+                    User Id:<br>
+                    <input id="newUserId" type="text" width="20">
+                    <br><br>
+                    First Name:<br>
+                    <input id="newUserFname" type="text" width="20">
+                    <br><br>
+                    Last Name:<br>
+                    <input id="newUserLname" type="text" width="20">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td></tr>
+        <tr><td></td><td>
+            <input id="btnLogin" type="button" name="buttonLogin" value="Go"/>
+            </td></tr>
+    </table>
+
+
+
+<table class="center">
+    </table>
+
+
+
+
+<script src="~/ABCWeb/Models/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        var mode = 'pick';
+
+        //Edit Login clicked
+        $('#btnLogin').click(function () {
+            if (mode == 'pick') {
+                var userId = $('#selUserId').val();
+                if (userId == '0') {
+                    $('#selectDiv').hide();
+                    $('#newUserDiv').show();
+                    mode = 'new';
+                }
+                else {
+                    var userId = $.trim($('#selUserId').val());
+                    var wLoc = new String(window.location);
+                    var newLoc = wLoc.substr(0, wLoc.indexOf("Login")) + "LoginSave?userId=" + userId;
+                    window.location.replace(newLoc);
+                }
+            }
+            else {
+                if ($.trim($('#newUserId').val()).length == 0 || $.trim($('#newUserFname').val()).length == 0 || $.trim($('#newUserLname').val()).length == 0) {
+                    alert('Please ensure your UserId, First Name and Last Name are populated before proceeding');
+                } else {
+                    var userId = $.trim($('#newUserId').val()) + "~" + $.trim($('#newUserFname').val()) + "~" + $.trim($('#newUserLname').val());
+                    var wLoc = new String(window.location);
+                    var newLoc = wLoc.substr(0, wLoc.indexOf("Login")) + "LoginSave?userId=" + userId;
+                    window.location.replace(newLoc);
+                }
+            }
+        });
+    });
+    
+</script>

@@ -1,0 +1,303 @@
+﻿@using System.Activities.Statements
+@using Microsoft.Ajax.Utilities
+@using ABC.Web.Models
+@{
+    ViewBag.Title = "ViewVariantRecords";
+    Layout = "~/ABCWeb/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2><i><b>Automated Build Compare Tool </b></i></h2>
+<h4 style="margin-bottom: 10px"><i>Viewing Variant Records for Product: <span style ="color:blue">@ViewBag.Product</span> and Data Type: <span style ="color:blue">@Html.Raw((String)(ViewBag.DataTable).Replace("Util.", "").Replace("_BC", "").Replace("_PAC", ""))</span></i></h4> 
+
+    <table><tr><td style="width:10px"></td>
+
+            <td>
+                <table class="center" style="width:100%">
+                    <tr><td>
+                            <input style="align:bottom;padding: 0;margin: 0;font-size:10px;height:20px" id="btnGo" type="button" name="buttonGo" value=" View "/>
+
+                            &nbsp; &nbsp;Policies: &nbsp;
+            
+                            <select id="selPolicy">
+                                <option id ="All" value="All">All Policies</option>
+                                @foreach (int policy in ViewBag.policyListAll)
+                                {
+                                    <option id="policyOption_" + @policy value="@Html.Raw(policy.ToString())" >@Html.Raw(policy.ToString()) </option>
+                                }
+                            </select>
+
+                            @{
+                                //Enable Amount Filtering only for tables with Amount or Dollars columns
+                                if (ViewBag.columnHeaders.Contains("Amount") || ViewBag.columnHeaders.Contains("Dollars"))
+                                {
+                                    @Html.Raw("&nbsp;&nbsp;Amount Difference Filter:&nbsp;<input type=\"text\" id=\"txtAmountFilter\" title=\"Hide Variant records with differences \nnot exceeding the filter value\" style=\"padding: 2px;margin: 0;text-align:right;align:bottom;height:13px;width:60px;border:1px solid lightgrey\" value=\"$0.00\" />");
+                                }
+
+                                //Determine TrxCode, AmountCode column numbers if any
+                                int trxCodeIdx = ((List<String>)ViewBag.columnHeaders).IndexOf("TrxCode");
+                                int amtCodeIdx = ((List<String>)ViewBag.columnHeaders).IndexOf("AmountCode");
+                            }
+                        </td></tr>
+                </table>
+
+
+                <h4><i><u>Variant Records</u></i><span>&nbsp;&nbsp;&nbsp;&nbsp;<img id="varRecImg" title="Show/Hide Variant Records" style="height:14px;border-width:1px" src="~/ABCWeb/Images/minus28.png"></span></h4>
+            
+
+                @if (ViewBag.filteredCount > 0)
+                {
+                    @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;<span style =\"color:blue\"><i>&lt;" + ViewBag.filteredCount + "&nbsp;&nbsp;records have been filtered&gt;</i></span>")
+                }
+                <div id="pnlVariant">
+                    <table class="center">
+                        <tr class="tableHeader">
+                            <td style="width:5px"></td>
+
+                        @foreach (String columnName in ViewBag.columnHeaders)
+                        {
+                            <td>@Html.Raw(columnName)</td>
+                        }
+                        <td style='text-align:center'>Current / Prior</td>
+                        </tr>
+
+                        @{ string[] oddEven = new string[] { "even", "odd" }; }
+                        @{ int i = 0;}
+                        @foreach (ABC.Web.Models.PolicyCurrentPrior item in ViewBag.varRecords)
+                        {
+                            //Display Current Record
+                            @Html.Raw("<tr class=" + @oddEven[++i % 2] + ">");
+                            @Html.Raw("<td style='width:5px'></td>");
+                            String[] rowValsCurrent = item.DataStringCurrent.Split('%');
+
+                            for (int ctr = 0; ctr < rowValsCurrent.Count(); ctr++)
+                            {
+                                if (trxCodeIdx == ctr)
+                                {
+                                    //Mouse over TransactionCode lookup 
+                                    @Html.Raw("<td style='white-space:nowrap;color:blue' title='" +
+                                        ((List<TransactionCodes>)ViewBag.TransactionCodes).FirstOrDefault(tc => tc.Transaction == (Int16.Parse(rowValsCurrent[ctr]))).Name + "'>" +
+                                        rowValsCurrent[ctr] + "</td>");
+                                }
+                                else if (amtCodeIdx == ctr)
+                                {
+                                    if((ViewBag.DataTable.ToString().Replace("Util.","")).Replace("_BC","") == "RiderOptions")
+                                    {
+                                        //Mouse over AmountCode lookup 
+                                        @Html.Raw("<td style='white-space:nowrap;color:blue' title='" +
+                                            ((List<AttributeCode>)ViewBag.AttributeCodes).FirstOrDefault(tc => tc.Code == (Int16.Parse(rowValsCurrent[ctr]))).Name + "'>" +
+                                            rowValsCurrent[ctr] + "</td>");
+                                    }
+                                    else
+                                    {
+                                        //Mouse over AmountCode lookup 
+                                        String acName = "**Unknown**";
+                                        try
+                                        {
+                                            acName = ((List<AmtCode>)ViewBag.AmountCodes).FirstOrDefault(tc => tc.AmountCode == (Int16.Parse(rowValsCurrent[ctr]))).AmountName;
+                                        }
+                                        catch { }
+                                        @Html.Raw("<td style='white-space:nowrap;color:blue' title='" +
+                                                        acName + "'>" + rowValsCurrent[ctr] + "</td>");
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.Raw("<td style='white-space:nowrap'>" + rowValsCurrent[ctr] + "</td>");
+                                }
+                            }
+                            <td style="text-align:center">C</td>
+                            @Html.Raw("</tr>");
+
+                            //Display Prior Record
+                            @Html.Raw("<tr class=" + @oddEven[i % 2] + ">");
+                            @Html.Raw("<td style='width:5px'></td>");
+                            String[] rowValsPrior = item.DataStringPrior.Split('%');
+                            for (int ctr = 0; ctr < rowValsPrior.Count(); ctr++)
+                            {
+                                if (trxCodeIdx == ctr)
+                                {
+                                    @Html.Raw("<td style='white-space:nowrap;color:blue' title='" +
+                                        ((List<TransactionCodes>)ViewBag.TransactionCodes).FirstOrDefault(tc => tc.Transaction == (Int16.Parse(rowValsPrior[ctr]))).Name + "'>" +
+                                        rowValsPrior[ctr] + "</td>");
+                                }
+                                else if (amtCodeIdx == ctr)
+                                {
+                                    if((ViewBag.DataTable.ToString().Replace("Util.","")).Replace("_BC","") == "RiderOptions")
+                                    {
+                                        //Mouse over AmountCode lookup 
+                                        @Html.Raw("<td style='white-space:nowrap;color:blue' title='" +
+                                            ((List<AttributeCode>)ViewBag.AttributeCodes).FirstOrDefault(tc => tc.Code== (Int16.Parse(rowValsPrior[ctr]))).Name + "'>" +
+                                            rowValsPrior[ctr] + "</td>");
+                                    }
+                                    else
+                                    {
+                                        //Mouse over AmountCode lookup 
+                                        String acName = "**Unknown**";
+                                        try
+                                        {
+                                            acName = ((List<AmtCode>)ViewBag.AmountCodes).FirstOrDefault(tc => tc.AmountCode == (Int16.Parse(rowValsPrior[ctr]))).AmountName;
+                                        }
+                                        catch { }
+                                        @Html.Raw("<td style='white-space:nowrap;color:blue' title='" +
+                                                        acName + "'>" + rowValsPrior[ctr] + "</td>");
+                                        
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.Raw("<td>" + rowValsPrior[ctr] + "</td>");
+                                }
+                            }
+                            <td style="text-align:center">P</td>
+                            @Html.Raw("</tr>");
+
+                            //Spacer
+                            <tr style="height:10px"></tr>
+                        }
+                    </table>
+                </div>
+
+                <h4><i><u>Unique Records</u></i><span>&nbsp;&nbsp;&nbsp;&nbsp;<img id="unqRecImg" title="Show/Hide Unique Records" style="height:14px;border-width:1px" src="~/ABCWeb/Images/minus28.png"></span></h4>
+
+                <div id="pnlUnique">
+                <table class="center">
+                        <tr class="tableHeader">
+                            <td style="width:5px"></td>
+                        @foreach (String columnName in ViewBag.columnHeaders)
+                        {
+                            <td>@Html.Raw(columnName)</td>
+                        }
+                        <td style='text-align:center'>Current / Prior</td>
+                        </tr>
+                    @{i = 0;}
+                    @foreach (ABC.Web.Models.PolicyCurrentPrior item in ViewBag.mmRecords)
+                    {
+                        //Display Unique Records
+                        @Html.Raw("<tr class=" + @oddEven[i++ % 2] + ">")
+                        @Html.Raw("<td style='width:5px'></td>");
+
+                        Boolean currentRec = item.DataStringCurrent != null;
+                        String rowData = currentRec ? item.DataStringCurrent : item.DataStringPrior;
+                        String[] rowVals = rowData.Split('%');
+                        for (int ctr = 0; ctr < rowVals.Count(); ctr++)
+                        {
+                            if (trxCodeIdx == ctr)
+                            {
+                                @Html.Raw("<td style='white-space:nowrap;color:blue' title='" +
+                                    ((List<TransactionCodes>)ViewBag.TransactionCodes).FirstOrDefault(tc => tc.Transaction == (Int16.Parse(rowVals[ctr]))).Name + "'>" +
+                                    rowVals[ctr] + "</td>");
+                            }
+                            else if (amtCodeIdx == ctr)
+                            {
+                                if((ViewBag.DataTable.ToString().Replace("Util.","")).Replace("_BC","") == "RiderOptions")
+                                {
+                                    //Mouse over AmountCode lookup 
+                                    @Html.Raw("<td style='white-space:nowrap;color:blue' title='" +
+                                        ((List<AttributeCode>)ViewBag.AttributeCodes).FirstOrDefault(tc => tc.Code == (Int16.Parse(rowVals[ctr]))).Name + "'>" +
+                                        rowVals[ctr] + "</td>");
+                                }
+                                else
+                                {
+                                    //Mouse over AmountCode lookup 
+                                    @Html.Raw("<td style='white-space:nowrap;color:blue' title='" +
+                                        ((List<AmtCode>)ViewBag.AmountCodes).FirstOrDefault(tc => tc.AmountCode == (Int16.Parse(rowVals[ctr]))).AmountName + "'>" +
+                                        rowVals[ctr] + "</td>");
+                                }
+                            }
+                            else
+                            {
+                                @Html.Raw("<td nowrap>" + rowVals[ctr] + "</td>");
+                            }
+                        }
+                        
+                        if (currentRec)
+                        {
+                            @Html.Raw("<td style='text-align:center'>C</td>");
+                        }
+                        else
+                        {
+                            @Html.Raw("<td style='text-align:center'>P</td>");
+                        }
+                        @Html.Raw("</tr>");
+                    }
+                </table>
+                </div>
+
+                <table class="center" style="width:100%">
+                    <tr><td>
+                            <input id="btnBack" type="button" name="buttonBack" value="Back"/>
+                        </td></tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+<script src="~/ABCWeb/Models/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        //Button Back clicked
+        $('#btnBack').click(function () {
+            window.location.replace('@Url.Action("VariantTables", "BuildCompare", new { runId = ViewBag.RunId })');
+        });
+
+        //Go Filter button clicked
+        $('#btnGo').click(function () {
+            var fPolicy = $( "#selPolicy" ).val().toString().replace("All","");
+            var amtFilter = $( "#txtAmountFilter" ).val() == null ? "" : ($( "#txtAmountFilter" ).val().toString()).replace("$","");
+            var newLoc = "@Url.Action("ViewVariantRecords", "BuildCompare", new { table = ViewBag.DataTable, product = ViewBag.Product, runId = ViewBag.RunId, policy = "~z~", amountFilter = "~a~" })";
+            window.location.replace(newLoc.replace("~z~",fPolicy).replace("~a~",amtFilter.toString()));
+        });
+
+        //Var records plus/minus clicked
+        $("[id$=RecImg]").click(function () {
+            if ($(this).attr('src').toString().indexOf('minus28.png') > -1)
+            {
+                $(this).attr("src", '../ABCWeb/Images/plus28.png');
+                if($(this).attr('id').toString().indexOf('var') > -1)
+                {
+                    $("#pnlVariant").hide();
+                }
+                else
+                {
+                    $("#pnlUnique").hide();
+                }
+            }
+            else
+            {
+                $(this).attr("src", '../ABCWeb/Images/minus28.png');
+                if($(this).attr('id').toString().indexOf('var') > -1)
+                {
+                    $("#pnlVariant").show();
+                }
+                else
+                {
+                    $("#pnlUnique").show();
+                }
+            }
+        });
+
+        //Set Policy Option if Policy# passed to page
+        if(@ViewBag.Policy.Length > 0)
+        {
+            $("select#selPolicy option")
+                .each(function() { this.selected = (this.text == "@ViewBag.Policy"); });
+        }
+
+        //Set Amount Filter if it is passed to page
+        if(@ViewBag.AmountFilter > 0)
+        {
+            $( "#txtAmountFilter" ).val('@String.Format("{0:C}", ViewBag.AmountFilter)');
+        }
+
+        //Set text if no records
+        if (@ViewBag.varRecords.Count == 0) {
+            pnlVariant.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><span style="color:blue">[None]</span></b>';
+        }
+        if (@ViewBag.mmRecords.Count == 0) {
+            pnlUnique.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><span style="color:blue">[None]</span></b>';
+        }
+
+    });
+</script>

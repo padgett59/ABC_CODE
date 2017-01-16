@@ -1,0 +1,8 @@
+D:\Source\R2015-03-13\Abc_Notify\bin\Debug\Abc_Notify.dll
+D:\Source\R2015-03-13\Abc_Notify\bin\Debug\Abc_Notify.pdb
+D:\Source\R2015-03-13\Abc_Notify\bin\Debug\Structures.dll
+D:\Source\R2015-03-13\Abc_Notify\bin\Debug\Structures.pdb
+D:\Source\R2015-03-13\Abc_Notify\bin\Debug\Structures.xml
+D:\Source\R2015-03-13\Abc_Notify\obj\Debug\Abc_Notify.csprojResolveAssemblyReference.cache
+D:\Source\R2015-03-13\Abc_Notify\obj\Debug\Abc_Notify.dll
+D:\Source\R2015-03-13\Abc_Notify\obj\Debug\Abc_Notify.pdb

@@ -1,0 +1,75 @@
+﻿@model  ABC.Web.Models.UserGroups
+@{
+    Layout = null;
+}
+<html>
+<head>
+    @Styles.Render("~/ABCWeb/Content/css")
+</head>
+<body id="body">
+ @using (Html.BeginForm("AddGroupMember", "BuildCompare", new { enctype = "multipart/form-data" }, FormMethod.Post, new { id = "frmAddGroupMember" }))
+{
+        <div class="content-wrapper">
+            <table width="100%">
+                <tr>
+                    <td colspan="2" style="font-size: small; font-weight: bold;text-align:center;">Users List - @ViewBag.GroupName  </td>
+                </tr>
+                <tr>
+                    <td width="15%"></td>
+                    <td>
+                        @if (Model != null)
+                        {
+                            @Html.ListBoxFor(model => model.SelectedUsers, new MultiSelectList(Model.GroupMemberInfo, "UserGroupIds", "UserName", Model.SelectedUsers), new { size = "6", style = "width:100%;" })
+                        }
+
+                    </td>
+                </tr>
+                <tr>
+                    <td width="2%"></td>
+                    <td align="center" >
+                      <button id="btnSave" value="Add Member"  name="buttonSave" style="width:100px;height:25px;font-style:normal;font-family:sans-serif;font-size:10px;text-align:center;"> Add Member</button>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%"></td>
+                    <td></td>
+                </tr>
+            </table>
+
+         
+        </div>
+ }
+
+</body>
+</html>
+<script src="~/ABCWeb/Models/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function () {
+
+            var queryStr = window.location.search.substring(1);
+            var selectedValues = [];
+
+            $('#SelectedUsers').find('option:selected').each(function () {
+                selectedValues.push($(this).val());
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "AddGroupMember", // the URL of the controller action method
+                dataType: "json",
+                data: queryStr + "&selectedUsers=" + selectedValues,
+                success: function (result) {
+                    window.opener.location.reload(true);
+                    self.close();
+                },
+                error: function (req, status, error) {
+
+                }
+            });
+        });
+
+    });
+
+</script>

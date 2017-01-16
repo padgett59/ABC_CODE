@@ -1,0 +1,491 @@
+﻿@model IEnumerable<ABC.Web.Models.BuildInfoList>
+
+@{
+    ViewBag.Title = "ABC Run Summary";
+}
+
+@using (Html.BeginForm("RunSummarySave", "BuildCompare", new { enctype = "multipart/form-data" }, FormMethod.Post, new { id = "frmRunSummaryData" }))
+{
+  
+    <table  width="100%"  class="Center"  >
+  
+   <tr style="padding:0px;height:100px;">
+    <td   style="width:50%;padding:0px;border-spacing:0;border-collapse:collapse; vertical-align:top; ">
+        <table style="width:100%; " >
+            <tr>
+                 <td rowspan="2"  style="font-size:12px;vertical-align:top;">
+                     <h2><i><b>Automated Build Compare Tool </b></i></h2><br />
+                &nbsp;&nbsp;&nbsp;  <b>  Welcome ABC user: @ViewBag.UserId</b> <br /> <br /> 
+                &nbsp;&nbsp;&nbsp; <b>  Run Summary for region: @ViewBag.Region</b>
+                @if (@ViewBag.AbcNumOfRowsFilter == 7)
+                {
+                    @Html.Raw("&nbsp;&nbsp;&nbsp; <span id=\"runsFiltered\" style =\"color:blue\"><i>&lt; Viewing last 7 runs &gt;</i></span>")
+                }
+
+                </td>
+            </tr>
+
+        </table>
+    </td>
+    <td style="width:10%;text-align:right;"><input id="btnView" type="button" name="buttonView" value="View"/> </td>
+    <td  style="width:40%;">
+     <table  style="width:100%;  ">
+         
+          <tr>
+              <td  style="text-align:start;width:10%;white-space:nowrap; vertical-align:top;"> 
+                    <fieldset style="border-radius: 30px; padding: 5px; min-height:30px; border:1px solid black; ">
+                        <legend style=" border:0px solid; font-size:10px;color:black;" ><b> Runs </b> </legend>
+                            <input type="radio" id="rbRun" name="rbRun" style="border:0px; padding-bottom:0px" checked  value="@ViewBag.PageSize" />  Last @ViewBag.PageSize runs<br />
+                            <input type="radio" id="rbRun"  name="rbRun" style="border:0px;padding-top:0px" value="-1";  />  All runs <br />
+                    </fieldset>
+                </td>
+              <td style="text-align:start;width:10%;vertical-align:top;white-space:nowrap" >
+                    <fieldset style="border-radius: 40px; padding: 5px; min-height:10px; min-width:40px; border:1px solid black; ">
+                        <legend style=" border:0px solid; font-size:10px;color:black;" ><b> Type </b> </legend>
+                        <input type="radio" id="rbType" name="rbType" style="border:0px;padding-bottom:0px;text-align:center;"  value="ABC" /> ABC (Only)
+                            <br />
+                        <input type="radio" id="rbType" name="rbType" style="border:0px;padding-top:0px;padding-bottom:0px" value="PAC" />  PAC (Only) <br />
+                        <input type="radio" id="rbType"  name="rbType" style="border:0px;padding-top:0px;padding-bottom:0px"  checked value="ALL" />  All <br />
+                       
+
+                    </fieldset>
+                </td>
+                 <td style="text-align:start;width:20%;vertical-align:top;white-space:nowrap" >
+                   <fieldset style="border-radius: 10px; padding: 5px; min-height:30px;min-width:10px; border:1px solid black; ">
+                    <legend style=" border:0px solid; color:black;" ><b> Delta Status </b> </legend>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                     
+                       <select  id="selDeltaStatus" name="selDeltaStatus">
+                           @foreach (var delta in ViewBag.DeltaStatus)
+                           {
+                                <option id="selDeltaStatus"  value="@Html.Raw(delta.Status)" >@Html.Raw(delta.Status)  </option>
+                           }
+                       </select>
+                    </fieldset> 
+                </td>
+               <td style="text-align:start;width:10%;vertical-align:top;" >
+                   </td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+</table>
+ <table width="100%"   >
+        <tr class="tableHeader" style="font-weight: bold;width:100%;">
+            <td></td><!-- View Variant Records -->
+            <td>Build</td>
+            <td>Run Type</td>
+            <td>Date</td>
+            <td>Run<br>Errors</td>
+            <td>Variance<br>Count</td>
+            <td>
+                <table><tr>
+                    <td class="iconwidth"></td> <!-- Add/Delete Delta Assignment Icon -->
+                    <td class="iconwidth"></td> <!-- Edit Delta Assignment Icon -->
+                    <td class="assignedwidth">Assigned To</td>
+                    <td class="deltastatuswidth">Delta Status</td>
+                    <td class="commentswidth">Comments</td>
+                    <td style="display:none">DeltaAssignmentId</td><!-- DeltaAssignmentId HIDDEN -->
+                </tr></table>
+            <td>
+        </tr>
+
+        @{ string[] oddEven = new string[] { "odd", "even" }; }
+        @{ int i = 0;}
+
+        @foreach (var item in Model)
+        {
+            <tr class="@oddEven[i++ % 2]">
+
+                <td style="min-width:50px;text-align:right">
+                    <a onmouseover="" style="cursor: pointer;" href="@Url.Action("VariantTables", "BuildCompare", new { runId = item.BuildId })">
+                        <img src="~/ABCWeb/Images/Search.jpg", title="View Run Detail", style="width: 15px; height: 15px;"/></a> 
+                </td>
+
+
+                <td>
+                        <a onmouseover="" style="cursor: pointer;" title ="View all Check-ins"
+                            href="@Url.Action("ViewBuildCheckins", "BuildCompare", new { runId = item.BuildId })">
+                            @Html.DisplayFor(modelItem => item.BuildNumber)
+                        </a>
+                        </td>
+
+
+                <td>@Html.DisplayFor(modelItem => item.RunType)</td>
+                <td>@Html.DisplayFor(modelItem => item.BuildDateTime)</td>
+                <td>@Html.DisplayFor(modelItem => item.ErrorCount)</td>
+                <td>@Html.DisplayFor(modelItem => item.DeltaCount)</td>
+
+                <td>
+                    <!-- Subtable psuedo code -->
+                    <!-- 
+                        <table>
+                              if no deltas 
+	                        <tr>
+                                    td(sized), td(sized), no Deltas, td, td, td
+                                </tr>    
+                              else
+                                 if (in role)
+                                    <tr>	
+            	                        add user icon, td(sized), td, td, td, td
+                                    <tr>
+                                 end if
+	                         foreach da
+	                            <tr>
+	    	                        deluser, edit user, da, dstatus, comments,td
+	                            </tr>
+                              end if
+                        </table>
+                    -->
+
+                    <table>
+                        @if (null != item.Deltas && !(Boolean)item.Deltas)
+                        {
+                            <tr>
+                                <td class="iconwidth" />
+                                <td class="iconwidth" />
+                                <td>[No Deltas]</td>
+                                <td colspan="3" />
+                            </tr>
+                        }
+                        else
+                        {
+                            if (((ABC.Web.Models.EnumAbcRole)ViewBag.UserRole == ABC.Web.Models.EnumAbcRole.Admin) || ((ABC.Web.Models.EnumAbcRole)ViewBag.UserRole == ABC.Web.Models.EnumAbcRole.TechLead))
+                            {
+                                <tr>
+                                    <td>
+                                        <div id="addUserTask" title="Add Delta Assignment" data-id="@(item.BuildId)" >
+                                                <span onmouseover=""  style="cursor: pointer; white-space:nowrap">
+                                                @((i + 1) % 2 != 0 ? Html.Raw("<img src=\"" + @Url.Content("~/ABCWeb/Images/addUserWhite.jpg") + "\" , alt='Assign Deltas', style='width: 18px; height: 18px;border:none;'/>")
+                                                                                        : Html.Raw("<img src=\"" + @Url.Content("~/ABCWeb/Images/addUserGray.jpg") + "\" , alt='Assign Deltas', style='width: 18px; height: 18px;border:none;'/>"))
+                                                    </span>
+                                        </div>
+                                    </td>
+                                    <td class="iconwidth" />
+                                    <td colspan="4" />
+                                </tr>
+                            }
+                            foreach (var da in item.DeltaAssignments)
+                            {
+                                <tr>
+                                    <td class="iconwidth">
+                                        @if (((ABC.Web.Models.EnumAbcRole)ViewBag.UserRole == ABC.Web.Models.EnumAbcRole.Admin) || ((ABC.Web.Models.EnumAbcRole)ViewBag.UserRole == ABC.Web.Models.EnumAbcRole.TechLead))
+                                        {
+                                            <div id="deleteAssignment" title="Delete Assignment" data-id="@(item.BuildId):@(da.AssignedTo):@(da.DeltaAssignmentId)" >
+                                            <span onmouseover="" style="cursor: pointer; white-space:nowrap">
+                                            @((i + 1) % 2 != 0 ? Html.Raw("<img src=\"" + @Url.Content("~/ABCWeb/Images/deleteUserWhite.jpg") + "\" , alt='Delete Assignment', style='width: 18px; height: 18px;border:none;'/>")
+                                                                                    : Html.Raw("<img src=\"" + @Url.Content("~/ABCWeb/Images/deleteUserGray.jpg") + "\" , alt='Assign Deltas', style='width: 18px; height: 18px;border:none;'/>"))
+                                                </span>
+                                            </div>
+                                        }
+                                    </td>
+
+                                    <td class="iconwidth">
+                                        @if (((ABC.Web.Models.EnumAbcRole)ViewBag.UserRole == ABC.Web.Models.EnumAbcRole.Admin) || ((ABC.Web.Models.EnumAbcRole)ViewBag.UserRole == ABC.Web.Models.EnumAbcRole.TechLead))
+                                        {
+                                            <div id="editAssignment" title="Edit Assignment"   data-id="@(item.BuildId):@(da.AssignedTo):@(da.DeltaAssignmentId)" >
+                                                <span onmouseover="" style="cursor: pointer; white-space:nowrap">
+                                                    <img src="~/ABCWeb/Images/Edit.JPG", id='editAssignedTo'   alt="Delta Details", style="width: 15px; height: 15px;"/>
+                                                </span>
+                                            </div>
+                                        }
+                                    </td>
+
+                                    <td class="assignedwidth">
+                                        <div id="deltaAssignmentInfo">
+                                            <span id="assigneeName">
+                                                <a onmouseover="" style="cursor: pointer;" href="@Url.Action("CheckInDetail", "BuildCompare", new { deltaAssignmentId = da.DeltaAssignmentId, buildNumber = item.BuildNumber, userName = da.Name })">@da.Name</a> 
+                                                (@da.AssignmentCheckInCount) 
+                                                @((i + 1) % 2 != 0 ? Html.Raw("<img src=\"" + @Url.Content("~/ABCWeb/Images/infoWhite.jpg") + "\" , alt='Assign Deltas', style='vertical-align:bottom; width: 18px; height: 18px;border:none;'/>")
+                                                                    : Html.Raw("<img src=\"" + @Url.Content("~/ABCWeb/Images/infoGray.jpg") + "\" , alt='Assign Deltas', style='vertical-align:bottom; width: 18px; height: 18px;border:none;'/>"))
+                                            </span>
+                                            <span id="tooltipContent"  style="display:none">
+                                                <u>Check-ins: </u><br>
+                                                @foreach (var checkIn in da.DeltaCheckInList)
+                                                {
+                                                    @Html.Raw("&nbsp;&nbsp;&nbsp;" + checkIn.SourceFile) <br>
+                                                }
+                                            </span>
+                                        </div>
+                                    </td>
+
+                                    <td class="deltastatuswidth">
+                                        <div id="editStatus" title="Change Assignment Status" data-id="@(item.BuildId):@(da.AssignedTo):@(da.DeltaAssignmentId)" >
+                                        <span onmouseover="" style="cursor: pointer; white-space:nowrap">
+                                        <img src="~/ABCWeb/Images/Edit.jpg", alt="Change Delta Status", style="width: 15px; height: 15px;"/>
+                                                            @da.Status
+                                                            </span><br>
+                                        </div>
+                                    </td>
+
+                                    <td class="commentswidth">
+                                        <div id="editComment" title="Enter Comment" data-id="@(item.BuildId):@(da.AssignedTo):@(da.DeltaAssignmentId)">
+                                                <img white-space:nowrap" src="~/ABCWeb/Images/Edit.jpg", alt="Add Comments", style="cursor: pointer;width: 15px; height: 15px;"/>
+                                                   @Html.Raw(da.Comments)<br>
+                                        </div>
+                                    </td>
+
+                                    <td style="display:none">
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <table class="center" style="width:100%">
+        <tr><td>
+                <span id="spanCancel" style="display:none">
+                    <input id="btnSave" type="button" name="buttonSave" value="Save"/>
+                    <input id="btnCancel" type="button" name="buttonCancel" value="Cancel"/>
+                </span>
+            </td></tr>
+    </table>
+
+    @Html.Hidden("changeData");
+    @Html.Hidden("selectedStatus");
+    @Html.Hidden("selectedRun");
+    @Html.Hidden("selectedRunType");
+}
+
+<div id="pickAssign" style="display:none">
+    <select multiple id="selAssign">
+        @foreach (var user in ViewBag.recipientList)
+        {
+            <option id="assignOption" value="@Html.Raw(user.RecipientId)" >@Html.Raw(user.FName) @Html.Raw(user.LName) </option>
+        }
+    </select>
+</div>
+
+<div id="pickAssigned" style="display:none">
+    <select  id="selAssigned">
+        @foreach (var user in ViewBag.recipientList)
+        {
+            <option id="assignedOption" value="@Html.Raw(user.RecipientId)" >@Html.Raw(user.FName) @Html.Raw(user.LName) </option>
+        }
+    </select>
+</div>
+
+<div id="pickStatus" style="display:none">
+    <select id="selStatus">
+        @foreach (var status in ViewBag.deltaStatus)
+        {
+            <option id="statusOption" + @status.DeltaStatusId value="@Html.Raw(status.DeltaStatusId)" >@Html.Raw(status.Status) </option>
+        }
+    </select>
+</div>
+
+
+<script src="~/ABCWeb/Models/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+<link   href="~/ABCWeb/Content/Site.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#editAssignTo*').click(function () {
+            if (this.innerHTML.indexOf("select") == -1) {
+                spanCancel.style.display = "inline";
+
+                //Show the select drop down with current value selected
+                var curVal = this.innerHTML.substring(this.innerHTML.indexOf(",>") + 2, this.innerHTML.length);
+                curVal = $.trim(curVal.replace("</SPAN>", ""));
+                $(this).html(pickAssign.innerHTML);
+                $(this).find("option").filter(function () { return $(this).html() == curVal; }).prop('selected', true);
+            }
+        });
+
+        $('#addUserTask*').click(function () {
+
+            if (this.innerHTML.indexOf("select") == -1) {
+                spanCancel.style.display = "inline";
+
+                //Show the select drop down with current value selected
+                var curVal = this.innerHTML.substring(this.innerHTML.indexOf(",>") + 2, this.innerHTML.length);
+                curVal = $.trim(curVal.replace("</SPAN>", ""));
+                $(this).html(pickAssign.innerHTML);
+                $(this).find("option").filter(function () { return $(this).html() == curVal; }).prop('selected', true);
+            }
+        });
+
+        $('#deleteAssignment*').click(function () {
+
+            var changesArray = [];
+            var chgStr = 'd~' + $(this).attr("data-id");
+
+
+            if (confirm('Are you sure you want to delete this assignment?')) {
+                //Do somthing
+                changesArray.push(chgStr);
+                //Convert to JSON and save in form hidden field
+                var saveString = JSON.stringify(changesArray);
+
+                $('#changeData').val(saveString);
+                //Post the page
+                $("#frmRunSummaryData").submit();
+            }
+
+        });
+
+
+        //Edit Status clicked
+        $('#editAssignment*').click(function () {
+
+            if (this.innerHTML.indexOf("select") == -1) {
+                spanCancel.style.display = "inline";
+                //editAssignment.style.display = "none";
+                //Show the select drop down with current value selected
+
+                var curVal = $(this).closest("td").next().find("#assigneeName").html(); //this.innerHTML.substring(this.innerHTML.indexOf(",>") + 2, this.innerHTML.length);
+                curVal = $.trim(curVal.replace("</SPAN>", ""));
+
+                $(this).closest("td").next().html(pickAssigned.innerHTML);
+                $(this).closest("td").next().find("option").filter(function () { return $(this).html() == curVal; }).prop('selected', true);
+                $(this).html("&nbsp;");
+
+            }
+        });
+
+
+        //Edit Status clicked
+        $('#editStatus*').click(function () {
+            //alert($(this).attr("data-id"));
+            if (this.innerHTML.indexOf("select") == -1) {
+                spanCancel.style.display = "inline";
+                //Show the select drop down with current value selected
+                var curVal = this.innerHTML.substring(this.innerHTML.indexOf(",>") + 2, this.innerHTML.length);
+                curVal = $.trim(curVal.replace("</SPAN>", ""));
+                $(this).html(pickStatus.innerHTML);
+                $(this).find("option").filter(function () { return $(this).html() == curVal; }).prop('selected', true);
+            }
+        });
+
+        //Edit Comment clicked
+        $('[id^=editComment]').click(function () {
+            if (this.innerHTML.toLowerCase().indexOf("textarea") == -1) {
+                spanCancel.style.display = "inline";
+                var bNone = this.innerHTML.indexOf("COLOR: blue") > -1;
+                if (bNone) {
+                    $(this).html(this.innerHTML.substring(this.innerHTML.indexOf("</SPAN>") + 7) + "<textarea style='height:20px;width:400px' id='commentTb'></textarea>");
+                }
+                else {
+                    $(this).html("<textarea style='height:20px;width:400px' id = 'commentTb'></textarea>");
+                }
+            }
+        });
+
+        //Button Cancel clicked
+        $('#btnCancel').click(function () {
+            //Ignore changes
+            window.location.replace('@Url.Action("RunSummary", "BuildCompare")');
+        });
+
+        //Button Save clicked
+        $('#btnSave').click(function () {
+            //Save Changes to hiddden form field
+            var changesArray = [];
+
+            //Save changes from AssignTo elements
+            $('#editAssignTo*').each(function () {
+                var chgStr;
+                if (this.innerHTML.indexOf("select") > -1) {
+                    chgStr = 'a~' + $(this).attr("data-id") + '~' + $(this).find("#selAssign").val();
+                    changesArray.push(chgStr);
+                }
+            });
+
+            //Save changes from Status elements
+            $('#editStatus*').each(function () {
+                var chgStr;
+
+                if (this.innerHTML.indexOf("select") > -1) {
+                    chgStr = 's~' + $(this).attr("data-id") + '~' + $(this).find("#selStatus").val();
+                    changesArray.push(chgStr);
+                }
+            });
+
+            //Save changes from Comments elements
+            $('#editComment*').each(function () {
+                var chgStr = "";
+                if (this.innerHTML.toLowerCase().indexOf("textarea") > -1) {
+                    chgStr = 'c~' + $(this).attr("data-id") + '~' + $(this).find("#commentTb").val();
+                    changesArray.push(chgStr);
+                }
+            });
+
+            //Save changes from AssignTo elements
+            $('#editAssignment*').each(function () {
+                var chgStr;
+                var txt = $(this).attr("data-id");
+
+                if ($(this).closest("td").next().html().indexOf("select") > -1) {
+                    chgStr = 'e~' + $(this).attr("data-id") + '~' + $(this).closest("td").next().find("#selAssigned").val();
+                    changesArray.push(chgStr);
+                }
+            });
+
+            $('#addUserTask*').each(function () {
+                var chgStr;
+                if (this.innerHTML.indexOf("select") > -1) {
+                    chgStr = 'a~' + $(this).attr("data-id") + '~' + $(this).find("#selAssign").val();
+                    changesArray.push(chgStr);
+                }
+            });
+
+            //Convert to JSON and save in form hidden field
+            var saveString = JSON.stringify(changesArray);
+            //alert(saveString);
+            $('#changeData').val(saveString);
+
+            //Post the page
+            $("#frmRunSummaryData").submit();
+        });
+
+        // Change tooltip position
+        var changeTooltipPosition = function (event) {
+            var tooltipX = event.pageX - 8;
+            var tooltipY = event.pageY + 8;
+            $('div.tooltip').css({ top: tooltipY, left: tooltipX });
+        };
+
+        // Show tooltip
+        var showTooltip = function (event) {
+            $('div.tooltip').remove();
+            $('<div class="tooltip"> ' + $(this).find('#tooltipContent').html() + '</div>')
+            .appendTo('body');
+            changeTooltipPosition(event);
+        };
+
+        // Hide tooltip
+        var hideTooltip = function () {
+            $('div.tooltip').remove();
+        };
+
+        //Bind the tooltip with information image
+        $('#deltaAssignmentInfo*').bind({
+            mousemove: changeTooltipPosition,
+            mouseenter: showTooltip,
+            mouseleave: hideTooltip
+        })
+
+        $('#btnView').click(function () {
+            $('#selectedStatus').val(jQuery("#selDeltaStatus option:selected").val());
+            $("#frmRunSummaryData").attr("action", "RunSummarySearch").submit();
+        });
+
+        $('input[name=rbRun][value="' + @ViewBag.AbcNumOfRowsFilter + '"]').prop('checked', true);
+        $('input[name=rbType][value="@ViewBag.RunTypeFilter" ]').prop('checked', true);
+        $('#selDeltaStatus').val("@ViewBag.StatusFilter");
+
+        //If Role is 0 [null] hide the icon columns
+        var hideIcons = "@ViewBag.UserRole" == 0;
+        if (hideIcons) {
+            $(".iconwidth").hide();
+        }
+
+    });
+
+
+
+</script>

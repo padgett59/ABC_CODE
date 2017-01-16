@@ -1,0 +1,22 @@
+# Create Logging folder if it does not exist
+$TARGETDIR = 'E:\Prefix\ST4\Prefix\ABC\PSLogs'
+if(!(Test-Path -Path $TARGETDIR )){
+    New-Item -ItemType directory -Path $TARGETDIR
+}
+
+# Make log entry with date time
+$ErrorLog = "E:\Prefix\ST4\Prefix\ABC\PSLogs\ABC_PS.log"
+$A = Get-Date; Add-Content $ErrorLog "`r`n`r`nAutomatedBuild called at: $A"
+try
+{
+# ABC Core Run
+   cmd /c "E:\Prefix\ST4\Prefix\ABC\AutomatedBuild.exe /Task 97" >> $ErrorLog
+# PAC Run
+   cmd /c "E:\Prefix\ST4\Prefix\ABC\AutomatedBuild.exe /Task 98" >> $ErrorLog
+}
+catch
+{
+   Add-Content $ErrorLog "`r`nAn error has occured. See log file for details."
+   Add-Content $ErrorLog $error[0]
+}
+

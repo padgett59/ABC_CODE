@@ -1,0 +1,80 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+RateType
+</name>
+</assembly>
+<members>
+<member name="M:Prefix.RateType.GetRate(System.Byte,System.Int16)">
+	<summary>
+ Gets the rate for a given fund variation.
+ </summary>
+	<param name="fundtype">Type of fund to use (gto,fixed,etc)</param>
+	<param name="variation">Variation to try to find</param>
+	<returns>The rate for the given variation</returns>
+	<remarks>Calls get rate or default for now, to match the behaviour of prod.</remarks>
+</member><member name="M:Prefix.RateType.GetRateOrDefault(System.Collections.Generic.Dictionary{System.Int32,Prefix.UnitvalueRateType},System.Int16)">
+	<summary>
+ Gets the rate for the given variation, or a default rate if the variation is not found
+ </summary>
+	<param name="unitValueRateTypes">Type of fund to use (gto,fixed,etc) </param>
+	<param name="variation">Variation to try to find </param>
+	<returns>The rate for the given variation, or a default rate if the variation is not found</returns>
+	<remarks>If a variation is not found in the unit values for a fund type, it is an error. For now, prod ignores the error and incorrectly
+ returns the first tiem in the dictionary. GetRateOrDefault was created to copy this behaviour
+ </remarks>
+</member><member name="M:Prefix.RateType.GetIndexStrategy(System.DateTime)">
+	<summary>
+ Gets all available Index Strategies for a given factortable and effective date.
+ </summary>
+	<param name="effDate">Effective Date</param>
+	<returns></returns>
+</member><member name="M:Prefix.RateType.GetRefundPercent(System.Byte,System.Int32,System.DateTime,System.Byte)">
+	<summary>
+	</summary>
+	<param name="factortable"></param>
+	<param name="policymonth"></param>
+	<param name="effDate"></param>
+	<returns>the rate loaded in table otherwise 1 to maintain existing product functionality (SPUL) </returns>
+</member><member name="M:Prefix.RateType.GetRefundPercentAll(System.Byte,System.DateTime)">
+	<summary>
+	</summary>
+	<param name="factortable"></param>
+	<param name="effDate"></param>
+	<returns>the array of rates loaded in table  </returns>
+</member><member name="M:Prefix.RateType.DefaultRate(System.Byte,System.Double,System.Int16,System.Int32,System.Byte)">
+	<summary>
+ First, gets the fixed default rate. If this value is 0, then the default rate is set.
+ </summary>
+	<param name="factorTable"></param>
+	<param name="specifiedTrgt"></param>
+	<param name="reportCodeNumber"></param>
+	<param name="fundNumber"></param>
+	<param name="fundType"></param>
+	<returns>the default rate</returns>
+</member><member name="M:Prefix.RateType.Dispose">
+	<summary>
+ Dispose() is redefined as abstract here so that implementation is responsible for implementing IDispose interface.
+ </summary>
+</member><member name="M:Prefix.RateType.Dispose(System.Boolean)">
+	<summary>
+ Dispose() is redefined as virtual here so that implementation can add additional cleanup.
+ </summary>
+	<param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+</member><member name="P:Prefix.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Prefix.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:Prefix.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

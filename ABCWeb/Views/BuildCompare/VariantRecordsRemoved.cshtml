@@ -1,0 +1,24 @@
+﻿@using System.Activities.Statements
+@using Microsoft.Ajax.Utilities
+@using ABC.Web.Models
+@{
+    ViewBag.Title = "ViewVariantRecords";
+    Layout = "~/ABCWeb/Views/Shared/_Layout.cshtml";
+}
+
+<h2><i><b>Automated Build Compare Tool </b></i></h2>
+<h4 style="margin-bottom: 10px"><i>Viewing Variant Records for Product: <span style ="color:blue">@ViewBag.Product</span> and Data Type: <span style ="color:blue">@Html.Raw((String)(ViewBag.DataTable).Replace("Util.", "").Replace("_BC", "").Replace("_PAC", ""))</span></i></h4> 
+        
+    <br/><h5><span style='color:blue'>Variant Records have been removed for this run because all Delta Assignments have been closed.</span><br></h5>
+
+    <h5><input id="btnBack" type="button" name="buttonBack" value="Back"/><h5>
+
+<script src="~/ABCWeb/Models/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        //Button Back clicked
+        $('#btnBack').click(function () {
+            window.location.replace('@Url.Action("VariantTables", "BuildCompare", new { runId = ViewBag.RunId })');
+        });
+    });
+</script>

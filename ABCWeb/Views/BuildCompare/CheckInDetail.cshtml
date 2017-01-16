@@ -1,0 +1,53 @@
+@model ABC.Web.Models.DeltaAssignmentPlus
+@using System.Activities.Statements
+@using Microsoft.Ajax.Utilities
+@{
+    ViewBag.Title = "View Assignment CheckIn Details";
+    Layout = "~/ABCWeb/Views/Shared/_Layout.cshtml";
+}
+
+<h2><i><b>Automated Build Compare Tool </b></i></h2>
+<h4>Delta Assignment Check-Ins for @ViewBag.userName for Build @ViewBag.BuildNumber</h4>
+
+<h4><i>Delta Assignment Check In Detail</i></h4>
+
+     <table width="100%">
+        <tr class="tableHeader" style="font-weight: bold;width:100%;">
+            <td></td>
+            <td>Change Type</td>
+            <td>Checkin<br>Date</td>
+            <td>SourceFile</td>
+            <td>TFS Path</td>
+            <td>Baseline</td>
+            <td>Change Set</td>
+        </tr>
+
+        @{ string[] oddEven = new string[] { "odd", "even" }; }
+        @{ int i = 0;}
+
+        @foreach (var item in Model.DeltaCheckInList)
+        {
+            <tr class="@oddEven[i++ % 2]">
+                <td></td>
+                <td>@Html.DisplayFor(modelItem => item.ChangeType)</td>
+                <td>@Html.DisplayFor(modelItem => item.CheckinDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.SourceFile)</td>
+                <td>@Html.DisplayFor(modelItem => item.TfsPath)</td>
+                <td>@Html.DisplayFor(modelItem => item.Baseline)</td>
+                <td>@Html.DisplayFor(modelItem => item.ChangeSetId)</td>
+            </tr>
+        }
+    </table>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="btnBack" type="button" name="buttonBack" value="Back"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<script src="~/ABCWeb/Models/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        //Button Back clicked
+        $('#btnBack').click(function () {
+            //Ignore changes
+            window.location.replace('@Url.Action("RunSummary", "BuildCompare")');
+        });
+    });
+</script>

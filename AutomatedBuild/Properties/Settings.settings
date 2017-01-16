@@ -1,0 +1,71 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AutomatedBuild.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="EmailServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">mail-gw.ent.nwie.net</Value>
+    </Setting>
+    <Setting Name="LoadDataPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UseRemoteServer" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RemoteServer_CopyPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">\\Prefixtestdb\Backups\1024\ABC_Data\ST4a</Value>
+    </Setting>
+    <Setting Name="RemoteServer_LoadPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">T:\Backups\1024\ABC_Data\ST4a</Value>
+    </Setting>
+    <Setting Name="Profile" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1666</Value>
+    </Setting>
+    <Setting Name="AbcWebURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:2774/BuildCompare/RunSummary</Value>
+    </Setting>
+    <Setting Name="TfsServerUrl" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://tfs.nwie.net:8080/tfs/IPSCollection</Value>
+    </Setting>
+    <Setting Name="AutoAssignDeltas" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BuildQuality" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Deployed to Test</Value>
+    </Setting>
+    <Setting Name="MergeIndicators" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Integration Merge[ACROSS]&lt;/string&gt;
+  &lt;string&gt;Integration Merge [ACROSS]&lt;/string&gt;
+  &lt;string&gt;Integration Merge&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="ArchiveDataSets" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">6</Value>
+    </Setting>
+    <Setting Name="TestRegion" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CI6_Local</Value>
+    </Setting>
+    <Setting Name="CVPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\Source\R2015-03-13\Prefix\TempUpdate\Net\Cashvalue.Net\bin\Debug\CashValue.exe</Value>
+    </Setting>
+    <Setting Name="OverrideVersionCheck" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="BuildDefinition" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">2015-03-13-Infix</Value>
+    </Setting>
+    <Setting Name="ReleaseTfsRoot" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">$/Prefix/DEV/R2015-03-13</Value>
+    </Setting>
+    <Setting Name="BuildDefinitionAlt" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">2014-11-07-Infix</Value>
+    </Setting>
+    <Setting Name="ReleaseTfsRootAlt" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">$/Prefix/DEV/R2014-11-07</Value>
+    </Setting>
+    <Setting Name="PoliciesPerLoadFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

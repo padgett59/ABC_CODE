@@ -1,0 +1,751 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Policies
+</name>
+</assembly>
+<members>
+<member name="P:Prefix.FundCollection.CurrentLoan">
+	<summary>
+ Returns the value of the loan fund + alt loan fund based on the last loan capitalization for a given policy.
+ </summary>
+	<returns>The loan + alt loan funds</returns>
+</member><member name="M:Prefix.FundCollection.GetFund(System.Int32,System.Int32)">
+	<summary>
+ Gets a fund by fund number and fund sequence.
+ </summary>
+	<param name="fundNumber">Fund number to match</param>
+	<param name="fundSeq">Fund sequence to match</param>
+	<returns>Returns fund if match is found, else returns null (nothing)</returns>
+	<remarks>With current system design, there can only be one fundnumber/fundseq combination on a policy at a time.</remarks>
+</member><member name="M:Prefix.FundCollection.ReconcileCollections(Prefix.FundCollection,Prefix.FundCollection,System.Boolean)">
+	<summary>
+ Reconciles two sets of Fund Collections
+ </summary>
+	<param name="first">First Fund Collection</param>
+	<param name="second">Second Fund Collection</param>
+	<param name="RetainValues">Determines whether to retain the values from the collection or not</param>
+</member><member name="M:Prefix.FundCollection.ReconcileIndexCollections(Prefix.FundCollection,Prefix.FundCollection)">
+	<summary>
+  Used to reconcile collections of indexed funds
+ </summary>
+	<param name="first">first collection, typically rider funds</param>
+	<param name="second">second collection, typically transaction funds</param>
+	<remarks></remarks>
+</member><member name="M:Prefix.InlineProjectionTransactionBase.Setup(Prefix.Policy,System.Int16)">
+	<summary>
+ Default Setup method uses supplied policy as policy that projections will be generated and ran upon.
+ Supplied policy will have transaction collection cleared before generating projection transactions.
+ This 
+ </summary>
+	<param name="p">Policy to project with.</param>
+	<param name="projectionTrxPosition">Position of projection transaction.</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:Prefix.BillingCollection.BillingAsOf(System.DateTime)">
+	<summary>
+ Get the billing for the policy based on an as of date
+ </summary>
+</member><member name="M:Prefix.CoverageReductionSegmentViewModel.#ctor">
+	<summary>
+ Creates a new instance of the CoverageReductionRiderInformation class.
+ </summary>
+</member><member name="P:Prefix.MinMaxLoanViewModel.LoanInterestChargeRate">
+	<summary>
+ Loan interest charged rate.
+ </summary>
+</member><member name="P:Prefix.MinMaxLoanViewModel.LoanInterestCreditRate">
+	<summary>
+ Loan interest credited rate
+ </summary>
+</member><member name="M:Prefix.AmountTypeCollection.AddAndEnd(System.Double,System.DateTime,System.DateTime)">
+	<summary>
+ Set the EndDate on the current AmountType Element effective on the StartDate passed in and then Adds a new AmountType element with passed in values.
+ </summary>
+	<param name="Amount"></param>
+	<param name="StartDate"></param>
+	<param name="EndDate"></param>
+	<remarks></remarks>
+</member><member name="T:Prefix.Beneficiary">
+	<summary>
+ Percentage, and type of beneficiary allocation
+ </summary>
+	<remarks></remarks>
+</member><member name="P:Prefix.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Prefix.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:Prefix.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="M:Prefix.RiderOptionCollection.AddAndEnd(System.Double,System.DateTime,System.DateTime,System.DateTime)">
+	<summary>
+ Set the EndDate on the current RiderOption Element effective on the StartDate passed in and then Adds a new RiderOption element with passed in values.
+ </summary>
+	<param name="Amount"></param>
+	<param name="StartDate"></param>
+	<param name="EndDate"></param>
+	<param name="DateAmount"></param>
+	<remarks></remarks>
+</member><member name="P:Prefix.FundDetail.BasisInOut">
+	<summary>
+ Indicates amount of money to move in or out of BasisUnits
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:Prefix.FundDetail.InterestInOut">
+	<summary>
+ Indicates amount of money to move in or out of InterestUnits
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:Prefix.Policy.PersistencyCreditAccumDuration">
+	<summary>
+ The number of years we will accumulate Persistency Reference Premium on the policy.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Prefix.Policy.InitialPremium">
+	<summary>
+ Returns the initial premium payments on the policy
+ </summary>
+</member><member name="M:Prefix.Policy.UpdateTotalRequiredPremium">
+	<summary>
+ Updates the total expected premium based off of the initial premium, and the payment duration
+ </summary>
+</member><member name="M:Prefix.Association.MoneyCalcSubTypeValuation(System.Byte,System.DateTime)">
+	<summary>
+ Gets Fixed money by subtype that is available given a certain valuation date.
+ </summary>
+	<param name="SubType">EnumFundSubType of bucket of money to be checked.</param>
+	<param name="valDate">Date Money ValDate is to be compared against.</param>
+	<returns>Returns sum of fixed subtype money that meets the valdate requirement.</returns>
+</member><member name="M:Prefix.Association.MoneyCalcFixedValuation(System.DateTime)">
+	<summary>
+ Gets all Fixed money that is available given a certain valuation date.
+ </summary>
+	<param name="valDate">Date Money ValDate is to be compared against.</param>
+	<returns>Returns sum of all fixed money that meets the valdate requirement.</returns>
+</member><member name="M:Prefix.Association.FindFund(Prefix.Fund)">
+	<summary>
+ Searches through the Association Fund Collection for a match using the provided fund.  This is typically
+ used to find the right rider fund from a transaction fund.
+ </summary>
+	<param name="fund">Fund to find (usually from P.T(e).F</param>
+	<returns>Returns matching fund from P.R(k).A(z).F, or null if no match found.</returns>
+	<remarks></remarks>
+</member><member name="M:Prefix.Association.SetKZ(System.Int16@,System.Int16@)">
+	<summary>
+ Sets k and z (rider position, association position) for the current Association (Segment of insurance)
+ Note that the parameters k and z are ByRef, and this method will change the values for the calling method.
+ </summary>
+	<param name="k">Rider Postion in RiderCollection</param>
+	<param name="z">Association Position in Association Collection for Rider</param>
+	<remarks></remarks>
+</member><member name="M:Prefix.Association.SetTaForTrx(Prefix.ITransaction,System.Int32,System.Decimal)">
+	<summary>
+ Sets the transaction amount for the supplied transaction for the current association
+ </summary>
+	<param name="transaction">Transaction to set amounts on</param>
+	<param name="amountCode">Amount Code to set</param>
+	<param name="value">Value to set transaction amount to</param>
+</member><member name="M:Prefix.Association.SetTaForTrx(Prefix.ITransaction,System.Int32,System.Decimal,System.Boolean)">
+	<summary>
+ Sets the transaction amount for the supplied transaction for the current association
+ </summary>
+	<param name="transaction">Transaction to set amounts on</param>
+	<param name="amountCode">Amount Code to set</param>
+	<param name="value">Value to set transaction amount to</param>
+	<param name="setPolicyDollar">Indicates Policy Dollar should also bet set to same value.</param>
+	<remarks></remarks>
+</member><member name="M:Prefix.Association.SetTaaForTrx(Prefix.ITransaction,System.Int32,System.Object,System.Boolean)">
+	<summary>
+	</summary>
+	<param name="transaction"></param>
+	<param name="amountCode"></param>
+	<param name="value"></param>
+	<param name="setPolicyDollarArray"></param>
+	<remarks></remarks>
+</member><member name="M:Prefix.LTCProduct.PaymentDurationYearsCurrent(Prefix.Policy)">
+	<summary>
+ Gets payment duration as of the current cycle date
+ Payment duration is a rider option that holds the expected payment duration in years.
+ Payment duration can change if the policy goes into rpu status
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PaymentDurationYearsCurrent">
+	<summary>
+ Gets payment duration as of the current cycle date
+ Payment duration is a rider option that holds the expected payment duration in years.
+ Payment duration can change if the policy goes into rpu status
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PaymentDurationYearsOriginal">
+	<summary>
+ Gets payment duration as of the policy date
+ Payment duration is a rider option that holds the expected payment duration in years.
+ Payment duration can change if the policy goes into rpu status
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PlannedPremiumAmount">
+	<summary>
+ Planned premium is the fist billing segment payment amount
+ </summary>
+</member><member name="M:Prefix.LTCProduct.FinalPlannedPremiumDueDateCurrent">
+	<summary>
+ Gets the final planned premium as of the current date
+ Final Planned premium due date is the policy date plus the number of years for the payment duration
+ </summary>
+</member><member name="M:Prefix.LTCProduct.FinalPlannedPremiumDueDateOriginal">
+	<summary>
+ Gets the final planned premium as of the policy date
+ Final Planned premium due date is the policy date plus the number of years for the payment duration
+ </summary>
+</member><member name="M:Prefix.LTCProduct.FinalPremiumPayment">
+	<summary>
+ If a policy is paid off, returns the amount of the final premium payment
+ </summary>
+</member><member name="M:Prefix.LTCProduct.TotalRequiredPremiumOriginal">
+	<summary>
+ Gets the total expected premium as of the policy date
+ Total expected premium is the total amount expected to be paid on this policy. 
+ It is the base segment amounttype TotalRequiredPremium as of the policy date. 
+ </summary>
+</member><member name="M:Prefix.LTCProduct.TotalRequiredPremiumCurrent">
+	<summary>
+ Gets the total expected premium as of the cycle date
+ Total expected premium is the total amount expected to be paid on this policy. 
+ It is the base segment amounttype TotalRequiredPremium as of the cycle date. 
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PremiumRemaining">
+	<summary>
+ Calculates the remaining premium required to mee the Total Required Premium based off of PrmAccum
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PremiumAccumulated">
+	<summary>
+ Total amount paid so far on this policy. 
+ Calculated by summing the amounts of the historical payments on the policy.
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PolicyPaidOff">
+	<summary>
+ A policy is paid off if the total premium is equal to the total expected premium
+ </summary>
+</member><member name="M:Prefix.LTCProduct.AbPayoutToCustomer">
+	<summary>
+ Amount paid to customer. Total payout amount less the amount sent to the excess benefit account
+ </summary>
+</member><member name="M:Prefix.LTCProduct.EbPayoutToCustomer">
+	<summary>
+ Amount paid to customer. Total payout amount less the amount sent to the excess benefit account
+ </summary>
+</member><member name="M:Prefix.LTCProduct.InflationPayoutToCustomer">
+	<summary>
+ Amount paid to customer. Total payout amount less the amount sent to the excess benefit account
+ </summary>
+</member><member name="M:Prefix.LTCProduct.AbPayoutToExcessBenefit">
+	<summary>
+ Amount paid to the excess benefit account. Stored on policydollars as ExcessBenefitAccum
+ </summary>
+</member><member name="M:Prefix.LTCProduct.EbPayoutToExcessBenefit">
+	<summary>
+ Amount paid to the excess benefit account. Stored on policydollars as ExcessBenefitAccum
+ </summary>
+</member><member name="M:Prefix.LTCProduct.InflationPayoutToExcessBenefit">
+	<summary>
+ Amount paid to the excess benefit account. Stored on policydollars as ExcessBenefitAccum
+ </summary>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyInflationCurrentBenefit(Prefix.Policy,Prefix.DeclareWarehouse.BenefitClassification)">
+	<summary>
+ Inflation benefit is present value of the max monthly original benefit at the inflation rider  rate (P.BaseSegment.A.InflationRiderRate), 
+ based on inflation interest type (P.BaseSegment.A.InflationInterestType) 0 for simple, 1 for compound
+ </summary>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyLTCCurrentBenefit(Prefix.Policy,Prefix.LTCPartialBenefitTransaction)">
+	<summary>
+ This is the MaxMonthlyCurrent policy dollar, which is the base specified amount divided by the base ltc duration
+ </summary>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyInflationCurrentBenefit">
+	<summary>
+ Inflation benefit is present value of the max monthly original benefit at the inflation rider  rate (P.BaseSegment.A.InflationRiderRate), 
+ based on inflation interest type (P.BaseSegment.A.InflationInterestType) 0 for simple, 1 for compound
+ </summary>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyLTCCurrentBenefit">
+	<summary>
+ This is the MaxMonthlyCurrent policy dollar, which is the base specified amount divided by the base ltc duration
+ </summary>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyLTCCurrentNonLoanBenefit">
+	<summary>
+ This is the MaxMonthlyCurrent policy dollar, which is the base specified amount divided by the base ltc duration
+ non loan values never take into account benefit classification
+ </summary>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyInflationNonLoanBenefit">
+	<summary>
+ This is the MaxMonthlyCurrent policy dollar, which is the base specified amount divided by the base ltc duration
+ non loan values never take into account benefit classification
+ </summary>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyInflationCurrentBenefit(Prefix.DeclareWarehouse.BenefitClassification)">
+	<summary>
+ Inflation benefit is present value of the max monthly original benefit at the inflation rider  rate (P.BaseSegment.A.InflationRiderRate), 
+ based on inflation interest type (P.BaseSegment.A.InflationInterestType) 0 for simple, 1 for compound
+ </summary>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyLTCCurrentBenefit(Prefix.DeclareWarehouse.BenefitClassification)">
+	<summary>
+ This is the MaxMonthlyCurrent policy dollar, which is the base specified amount divided by the base ltc duration
+ </summary>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyLTCOriginalBenefit">
+	<summary>
+ This is the Original policy dollar, which is the base specified amount divided by the base ltc duration
+ </summary>
+</member><member name="M:Prefix.LTCProduct.NextScheduledPartialBenefitPayoutDate">
+	<summary>
+ Next scheduled payout is the next 147 (partial benefit) transaction within the scheduled transactions (p.st) 
+ </summary>
+</member><member name="M:Prefix.LTCProduct.NextScheduledPartialBenefitPayout">
+	<summary>
+ Returns the next scheduled partial benefit tranasction from the scheduled transactions collection
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PreviousPartialBenefitPayout(Prefix.Policy)">
+	<summary>
+ Returns the previous partial benefit transaction from the historical transactions collection
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PreviousPartialBenefitPayout(Prefix.Policy,System.Nullable{System.DateTime})">
+	<summary>
+ Returns the previous partial benefit transaction from the historical transactions collection
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PreviousPartialBenefitPayout">
+	<summary>
+ Returns the previous partial benefit transaction from the historical transactions collection
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PartialBenefitPaidOut">
+	<summary>
+ Total payout is the sum of partial benefits paid out 
+ (sum of 147 transactions in p.th), which includes both the ltc paid out, and the inflation amount paid out
+ </summary>
+</member><member name="M:Prefix.LTCProduct.AbBenefitRemaining">
+	<summary>
+ Calculates the remaining long term care benefit for a given long term care rider.
+ This is the max monthly current benefit times the rider duration, less the long term care benefit accumulated payout
+ This is needed because the benefit remaining is not stored anywhere on the policy
+ </summary>
+</member><member name="M:Prefix.LTCProduct.EbBenefitRemaining">
+	<summary>
+ Calculates the remaining long term care benefit for a given long term care rider.
+ This is the max monthly current benefit times the rider duration, less the long term care benefit accumulated payout
+ This is needed because the benefit remaining is not stored anywhere on the policy
+ </summary>
+</member><member name="M:Prefix.LTCProduct.EbBenefitRemaining(Prefix.DeclareWarehouse.BenefitClassification)">
+	<summary>
+ Calculates the remaining long term care benefit for a given long term care rider.
+ This is the max monthly current benefit times the rider duration, less the long term care benefit accumulated payout
+ This is needed because the benefit remaining is not stored anywhere on the policy
+ </summary>
+</member><member name="M:Prefix.LTCProduct.TotalBenefitRemaining">
+	<summary>
+ Calculates the total remaining term care benefit for a given policy.
+ This is the max monthly current benefit times the rider duration, less the long term care benefit accumulated payout
+ This is needed because the benefit remaining is not stored anywhere on the policy
+ </summary>
+</member><member name="M:Prefix.LTCProduct.TotalBenefitRemainingNonLoan">
+	<summary>
+ Calculates the total remaining non loanedlong term care benefit for a given policy.
+ This is the max monthly current benefit times the rider duration, less the long term care benefit accumulated payout
+ This is needed because the benefit remaining is not stored anywhere on the policy
+ </summary>
+</member><member name="M:Prefix.LTCProduct.AbBenefitRemainingNonLoan">
+	<summary>
+ Calculates the remaining non loanedlong term care benefit for a given long term care rider.
+ This is the max monthly current benefit times the rider duration, less the long term care benefit accumulated payout
+ This is needed because the benefit remaining is not stored anywhere on the policy
+ </summary>
+</member><member name="M:Prefix.LTCProduct.EbBenefitRemainingNonLoan">
+	<summary>
+ Calculates the remaining non loaned long term care benefit for a given long term care rider.
+ This is the max monthly current benefit times the rider duration, less the long term care benefit accumulated payout
+ This is needed because the benefit remaining is not stored anywhere on the policy
+ </summary>
+</member><member name="M:Prefix.LTCProduct.LTCTotalBenefitCurrent">
+	<summary>
+ Total coverage is the total max monthly benefit times the long term care duration. 
+ It is stored as a policy dollar LTCTotalBenefitCurrent
+ </summary>
+</member><member name="M:Prefix.LTCProduct.LTCTotalBenefitOriginal">
+	<summary>
+ Total Benefit is the total max monthly benefit times the long term care duration. 
+ It is stored as a policy dollar LTCTotalBenefitOrig
+ </summary>
+</member><member name="M:Prefix.LTCProduct.AbTotalBenefitOriginal">
+	<summary>
+ Total original long term care benefit available for the long term care ab rider
+ </summary>
+</member><member name="M:Prefix.LTCProduct.AbTotalBenefitCurrent">
+	<summary>
+ Total current long term care benefit available for the long term care ab rider
+ </summary>
+</member><member name="M:Prefix.LTCProduct.EbTotalBenefitOriginal">
+	<summary>
+ Total original long term care benefit available for the long term care eb rider
+ </summary>
+</member><member name="M:Prefix.LTCProduct.EbTotalBenefitCurrent">
+	<summary>
+ Total current long term care benefit available for the long term care eb rider
+ </summary>
+</member><member name="M:Prefix.LTCProduct.LTCDurationTotal(Prefix.Policy)">
+	<summary>
+ Returns the sum of both the rider options for ltc duration, and ltc extended duration
+ </summary>
+</member><member name="M:Prefix.LTCProduct.RpuInvoked(Prefix.Policy)">
+	<summary>
+ Checks historical transactions to see if the policy is in rpu status
+ </summary>
+</member><member name="M:Prefix.LTCProduct.RiderPayoutToCustomer(System.Decimal,System.Decimal)">
+	<summary>
+ Amount paid to customer. It is not stored on the policy, and is calculated by taking
+ the total payout amount less the amount sent to the excess benefit account
+ </summary>
+	<param name="baseLtcBenAccum">Rider base segment policy dollar LtcBenAccum</param>
+	<param name="excessBenefitAccum">Rider base segment policy dollar ExcessBenAccum</param>
+	<returns>Amount paid out less amount to excess benefit</returns>
+</member><member name="M:Prefix.LTCProduct.PolicyPaidOff(System.Decimal,System.Decimal)">
+	<summary>
+ A policy is paid off if the total premium is equal to the total expected premium
+ </summary>
+	<param name="totalPayments">Policy base segment policy dollar PremAccum</param>
+	<param name="totalRequiredPremium">Policy base segment amount type TotalRequiredPremium</param>
+	<returns>True if the total payments are greater or equal to the total expected premium.</returns>
+</member><member name="M:Prefix.LTCProduct.FinalPlannedPremiumdueDate(System.DateTime,System.Int32)">
+	<summary>
+ Final Planned premium due date is the policy date plus the number of years for the payment duration
+ RPU can change the payment duration, and the final payment date
+ </summary>
+	<param name="policyDate">Policy date for the given policy</param>
+	<param name="paymentDuration">Policy base segment rider option PaymentDuration as of a given date.</param>
+	<returns>Policy date plus payment durattion less one year (first policy year not counted twice)</returns>
+</member><member name="M:Prefix.LTCProduct.AnnualPremiumExpected(System.Decimal,System.Int32)">
+	<summary>
+ This is the total expected premium divided by the payment duration
+ </summary>
+	<param name="totalRequiredPremium">Policy base segment amount type TotalRequiredPremium</param>
+	<param name="paymentDuration">Policy base segment rider option PaymentDuration as of a given date.</param>
+	<returns>Total expected premium divided by payment duration</returns>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyLTCBenefit(System.Decimal,System.Int32,Prefix.DeclareWarehouse.BenefitClassification,System.Decimal)">
+	<summary>
+ Calculates the maximum monthly long term care benefit based off of the base specified amount and the ltc total (ab + eb) duration
+ </summary>
+	<param name="baseSpecifiedAmount">Policy base segment specied amount as of a given date</param>
+	<param name="ltcAbDuration">Total of the long term care ab + eb durations</param>
+	<returns>Base specified amount divided by the ltc total duration</returns>
+</member><member name="M:Prefix.LTCProduct.PremiumPaidUp(System.Int32,System.Decimal,System.Decimal)">
+	<summary>
+ Checks to see if the policy premium is currently paid up for the given policy duration
+ </summary>
+	<param name="policyDuration">Policy base segment rider option PaymentDuration as of a given date.</param>
+	<param name="annualPremium">Annual expected premium, which is the total expected premium divided by the base segment payment duration less one year</param>
+	<param name="baseSegmentPrmAccum">Policy base segment policy dollar PrmAccum</param>
+	<returns>True if the base segment accumulated premium is greater than the annual premium times the payment duration</returns>
+</member><member name="M:Prefix.LTCProduct.NonLoanedProportionCSV(Prefix.Policy,System.Double,System.DateTime)">
+	<summary>
+ Calculates the Non Loaned Proportion (Non Loaned Proportion CSV) for a policy as of a given date.
+ It gets the cash surrender value and deducts the indebitedness from it and the result is then 
+ divided by surrender Value to get the ratio.
+ </summary>
+	<param name="policy">Policy to sum the amount for</param>
+	<param name="asOfDate">As of date of the calculation</param>
+	<returns>Non Loaned Proportion as of a given date less policy indebetedness</returns>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyLTCBenefit(Prefix.Policy,System.Double,System.DateTime,Prefix.DeclareWarehouse.BenefitClassification)">
+	<summary>
+ Calculates the max monthly ltc benefit given a policy base segment and an as of date
+ </summary>
+	<param name="policy">Policy base segment</param>
+	<param name="asOfDate">Given as of date</param>
+	<returns>The max monthly current based off of specified amount and ltc base rider duration</returns>
+</member><member name="M:Prefix.LTCProduct.MaxMonthlyLTCBenefitNonLoan(Prefix.Policy,System.DateTime,Prefix.DeclareWarehouse.BenefitClassification)">
+	<summary>
+ Calculates the max monthly ltc benefit not including indebetedness given a policy base segment and an as of date
+ </summary>
+	<param name="policy">Policy base segment</param>
+	<param name="asOfDate">Given as of date</param>
+	<returns>The max monthly current based off of specified amount and ltc base rider duration</returns>
+</member><member name="M:Prefix.LTCProduct.LtcTotalBenefit(Prefix.Policy,System.Double,System.DateTime)">
+	<summary>
+ Calculates the total of the ltc AB benefit, and the ltc EB Benefit
+ </summary>
+	<param name="policy">Policy</param>
+	<param name="effective">Effective as of the given date</param>
+	<returns>The total long term care benefit based off of the ab and eb riders</returns>
+</member><member name="M:Prefix.LTCProduct.LtcTotalBenefitNonLoan(Prefix.Policy,System.DateTime)">
+	<summary>
+ Calculates the total of the ltc AB benefit non loaned, and the ltc EB Benefit non loaned values
+ </summary>
+	<param name="policy">Policy</param>
+	<param name="effective">Effective as of the given date</param>
+	<returns>The total long term care benefit based off of the ab and eb riders</returns>
+</member><member name="M:Prefix.LTCProduct.LtcAbBenefit(Prefix.Policy,System.Double,System.DateTime)">
+	<summary>
+ Total long term care benefit for the ltc ab rider based off of the specified amount and ltc ab rider duration
+ </summary>
+	<param name="policy">Policy</param>
+	<param name="effective">Effective as of the given date</param>
+	<returns>The total long term care benefit for the ab rider</returns>
+</member><member name="M:Prefix.LTCProduct.LtcAbBenefitNonLoan(Prefix.Policy,System.DateTime)">
+	<summary>
+ Total non loaned long term care benefit for the ltc ab rider based off of the specified amount less indebetedness and ltc ab rider duration
+ </summary>
+	<param name="policy">Policy</param>
+	<param name="effective">Effective as of the given date</param>
+	<returns>The total long term care benefit for the ab rider</returns>
+</member><member name="M:Prefix.LTCProduct.LtcEbBenefit(Prefix.Policy,System.Double,System.DateTime)">
+	<summary>
+ Total long term care benefit for the ltc eb rider based off of the specified amount and ltc eb rider duration
+ </summary>
+	<param name="policy">Policy</param>
+	<param name="effective">Effective as of the given date</param>
+	<returns>The total long term care benefit for the eb rider</returns>
+</member><member name="M:Prefix.LTCProduct.LtcEbBenefitNonLoan(Prefix.Policy,System.DateTime)">
+	<summary>
+ Total non loaned long term care benefit for the ltc eb rider based off of the specified amount less indebetedness and ltc eb rider duration
+ </summary>
+	<param name="policy">Policy</param>
+	<param name="effective">Effective as of the given date</param>
+	<returns>The total long term care benefit for the eb rider</returns>
+</member><member name="M:Prefix.LTCProduct.FinalPlannedPremiumDueDate(System.DateTime,Prefix.Association,System.DateTime)">
+	<summary>
+ Final Planned premium due date is the policy date plus the number of years for the payment duration
+ </summary>
+</member><member name="M:Prefix.LTCProduct.PolicyPaidOff(Prefix.Association,System.Double,System.DateTime)">
+	<summary>
+ A policy is paid off if the total premium is equal to the total expected premium
+ </summary>
+</member><member name="M:Prefix.LTCProduct.RiderPayoutToCustomer(Prefix.Rider)">
+	<summary>
+ Amount paid to customer. Total payout amount less the amount sent to the excess benefit account
+ </summary>
+</member><member name="M:Prefix.Fund.IsFixedValuationType(Prefix.DeclareWarehouse.EnumFund)">
+	<summary>
+ Returns a True or False value for Fixed Valuation Type based on the passed in FundType
+ </summary>
+	<param name="fundType">Fund Type of the Fund</param>
+	<returns>True or False depending on the Fund Type</returns>
+</member><member name="M:Prefix.ReturnAmountDictionary.SumPolicyDollars(Prefix.RiderCollection,System.Int32)">
+	<summary>
+ Sums the all of the Transaction Amounts on the Retrun Amount Collection for the given AmountCode
+ </summary>
+	<param name="R"></param>
+	<param name="Code"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Prefix.ReturnAmountDictionary.SumPolicyDollars(Prefix.RiderCollection,System.Int32,System.Int32[])">
+	<summary>
+ Sums the Transaction Amounts on the Retrun Amount Collection for the given AmountCode for the list of passed in RiderCodes
+ </summary>
+	<param name="R"></param>
+	<param name="Code"></param>
+	<param name="riderCode"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Prefix.FutureAllocationsCollection.GetFundAllocationByDate(System.DateTime)">
+Use caution when calling this function. This will return the first future allocation object matched.
+Should only be used when it can be guaranteed that there is only one allocation type for a date.
+
+</member><member name="M:Prefix.FutureAllocationsCollection.GetAllocationTypeByDate(System.DateTime)">
+	<summary>
+ Returns the allocation type of the allocations in effect for the supplied effective date.
+ </summary>
+	<param name="effDate">Effective Date of Transaction</param>
+	<returns>Returns byte representing allocation type (EnumFundAllocationType)</returns>
+	<remarks>Note that this should not be used for IUL, as IUL can have more than one allocation type
+ active for a given period.  In those cases, only the first allocation type will be returned!</remarks>
+</member><member name="F:Prefix.QuoteBusinessObject._policyCount">
+	<summary>
+ Default number of policies in the quote project is 2
+ </summary>
+</member><member name="T:Prefix.QuoteBusinessObject">
+	<summary>
+ Provides a framework for storing and displaying errors based on IDataErrorInfo
+ </summary>
+	<remarks></remarks>
+</member><member name="F:Prefix.BusinessRules.BR0">
+	<summary>
+ Default, blank business rule
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR171">
+	<summary>
+ "A loan transaction is not allowed with an effective date that is prior to the first policy anniversary date 
+ except if a Loan Carryover is processed during a 1035 Exchange Payment or if the product/state allows a loan in the first year."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR178">
+	<summary>
+ "When Quoting a Partial Surrender and Prefix determines the Specified Amount will be reduced, display a message."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR179">
+	<summary>
+ "A partial surrender transaction is not allowed with an effective date that is prior to the first 
+ policy anniversary based on product rules."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR305">
+	<summary>
+ "BR305 - The Loan Payoff date will default to the last completed cycle date + 10 calendar days in the future."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR306">
+	<summary>
+ "If the As Of Date is the Cycle Date, the system will use the last Cycle Date. If the two dates 
+ are not equal, the system will use the As Of Date."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR307">
+	<summary>
+ BR307 – When quoting a Partial Surrender and a reduction is detected on any one of the following riders, 
+ a message is needed.  (Current riders that can be reduced include: Long Term Care, Estate Protection, 
+ Select Estate Protection riders, as well as the Extended Death Benefit Guarantee rider)
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR308">
+	<summary>
+ BR308 – When quoting a Partial Surrender and a reduction is detected but the Specified Amount is already at the minimum allowed, 
+ display an informational message.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR310">
+	<summary>
+ "If the amount being returned by the quote is not limited by the SA or the minimum 
+ allowed based on the product, display a message."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR311">
+	<summary>
+ "When an EDBG rider is invoked a Partial Surrender or Loan is not allowed."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR312">
+	<summary>
+ "Quote is less than the product minimum allowed and greater than zero."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR313">
+	<summary>
+ "When the quote is equal to or less than zero, display an error message."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR315">
+	<summary>
+ "BR315 – When the policy has the EDBG Rider and is not invoked, display an informational message."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR316">
+	<summary>
+ "When the Long Term Care or Premium Waiver riders are invoked, the policy is not allowed to have a 
+ loan or partial surrender."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR318">
+	<summary>
+ "For a Loan quote, the Taxable Amount is displayed only if the policy has a tax status of 3 – MEC. If the tax status is not 
+ a 3 – MEC then ‘Not Applicable’ will be displayed in the Taxable Amount column."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR319">
+	<summary>
+ "When quoting, and the Cost Basis is not valid and the tax status is 3 – MEC, do not calculate the taxable 
+ amount and display INVALID in the value for that field instead."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR320">
+	<summary>
+ "Loans and/or Partial Surrenders are not allowed on a policy with a status of either Lapse-Pending 
+ or Pending Death."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR321">
+	<summary>
+ "If Prefix determines that the transaction is taxable and the Cost Basis is not valid, do not calculate the taxable amount 
+ and display INVALID in the value for that field instead."
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR322">
+	<summary>
+ BR322 – When quoting a Coverage Reduction and a reduction is detected on any one of the following riders, a message is needed.  
+ (Current riders that can be reduced include: Long Term Care, Estate Protection, Select Estate Protection riders, 
+ as well as the Extended Death Benefit Guarantee rider)
+ NOTE: Prefix should know that the reduction will include the riders affected and will display the correct monthly deduction.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR323">
+	<summary>
+ BR323 – When quoting a Coverage Reduction and a reduction is detected but the Specified Amount is being limited 
+ based on the greater of the product minimum or IRS guidelines, display an informational message.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR324">
+	<summary>
+ BR324 – When an EDBG, Long Term Care or Waiver of Monthly Deductions rider is invoked, Coverage Reduction is not advisable.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR325">
+	<summary>
+ "A Coverage Reduction is not allowed with an effective date that is prior to the first policy anniversary based 
+ on product rules (however this could happen as an exception)."
+ No further information given.
+ </summary>
+	<remarks></remarks>
+</member><member name="F:Prefix.BusinessRules.BR329">
+	<summary>
+ When the policy is already a MEC, an informational message needs to be displayed.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR327">
+	<summary>
+ BR327 – When quoting from the Coverage Reduction section, if there is one or multiple restrictions on 
+ the policy then display an error message.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR328">
+	<summary>
+ When quoting a Coverage Reduction and a reduction is detected but the Specified Amount is already at the IRS guideline limitations.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR330">
+	<summary>
+ When a policy status is Pending-Death, a Coverage Reduction is not allowed.
+ </summary>
+	<remarks></remarks>
+</member><member name="F:Prefix.BusinessRules.BR331">
+	<summary>
+ When a policy status is Lapse-Pending, Premium is required to keep the policy in force.
+ </summary>
+	<remarks></remarks>
+</member><member name="F:Prefix.BusinessRules.BR332">
+	<summary>
+ When the When the Premium Waiver rider is invoked, the policy is not allowed to have a Coverage Reduction.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR337">
+	<summary>
+ The Effective Date cannot be prior to the Policy Effective Date, a future date or left blank.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR343">
+	<summary>
+ When quoting, and the Cost Basis is not valid, do not calculate the taxable amount and display 
+ INVALID in the value for that field instead.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR344">
+	<summary>
+ If policy status is not Active, Disability, Lapse-Pending, Pending–Death, Disability Pending or 
+ Maturity Extension, display an informational message.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR345">
+	<summary>
+ When the Partial Surrender is limited due to the reduction hitting the minimum Specified Amount, display an informational message.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR346">
+	<summary>
+ When quoting a Coverage Reduction and a reduction is detected but the Specified Amount is limited based on the product minimum, 
+ display an informational message. 
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR347">
+	<summary>
+ When quoting a Coverage Reduction and a reduction is detected but the Specified Amount is already at the minimum allowed. 
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR349">
+	<summary>
+ Only display the Maximum Amount Preferred row and values in the Prefix Quoting window, when a Product allows a Preferred Partial Surrender.
+ </summary>
+</member><member name="F:Prefix.BusinessRules.BR350">
+	<summary>
+ When the user changes the “Loan Payoff Date” the system displays spaces in the Total Payoff amount field.
+ </summary>
+</member><member name="P:Prefix.MinMaxCombinationWDLoanViewModel.LoanInterestChargeRate">
+	<summary>
+ Loan interest charged rate for the policy loan.
+ </summary>
+</member><member name="P:Prefix.MinMaxCombinationWDLoanViewModel.LoanInterestCreditRate">
+	<summary>
+ Loan interest credit rate for the policy loan.
+ </summary>
+</member>
+</members>
+</doc>

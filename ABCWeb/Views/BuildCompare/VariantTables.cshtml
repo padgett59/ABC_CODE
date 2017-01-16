@@ -1,0 +1,155 @@
+﻿@using System.Web.UI.WebControls
+@using Microsoft.Ajax.Utilities
+@model IDictionary<Byte, IDictionary<String, Byte>>
+@{
+    ViewBag.Title = "VariantTables";
+}
+
+<h2><i><b>Automated Build Compare Tool </b></i></h2>
+<h3>Variant Tables View <span style="font-size:80%;font-weight:lighter"><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Build: @ViewBag.BuildInfo.BuildNumber [@ViewBag.BuildInfo.BuildDateTime]</span></h3> 
+
+<div>
+    <table class="center">
+        <tr class="tableHeader">
+        
+            <td>&nbsp;&nbsp;Product</td>
+            @foreach (String tableName in ViewBag.TableNamesThin)
+            {
+                <td ><b>@Html.Raw(tableName.Replace("Util.","").Replace("_BC","").Replace("_PAC",""))</td>
+            }
+        </tr>
+    
+        <tr><td colspan="30">
+            
+                <div style="overflow-y: auto; overflow-x:hidden; height:325px;">
+        
+                    <table>
+                        
+                        @{ string[] oddEven = new string[] {"odd", "even"}; }
+                        @{ int i =0;}
+
+                        @foreach (var item in Model)
+                        {
+                            @Html.Raw("<tr class=" + @oddEven[i++ % 2] + ">")
+                            @Html.Raw("<td style='text-align:center'><b>") @item.Key @Html.Raw("</td>")
+
+                            foreach (String tableName in ViewBag.TableNames)
+                            {
+                                @Html.Raw("<td  style='background-color:white;text-align:center'>");
+                                switch (item.Value[tableName])
+                                {
+                                    case 0:
+                                        <img src="~/ABCWeb/Images/EmptySet.PNG", alt="View Run Detail", style="width: 15px; height: 15px; border:none"/>
+                                        break;
+                                    case 1:
+                                        <img src="~/ABCWeb/Images/CheckMark.PNG", alt="View Run Detail", style="width: 15px; height: 15px; border:none"/>
+                                        break;
+                                    case 2:
+                                        <a href="@Html.Raw(Url.Action("ViewVariantRecords", "BuildCompare", new { table = tableName, product = item.Key, runId = ViewBag.RunId }, null) )">
+                                            <img src="~/ABCWeb/Images/Search.jpg", title="View Variant Records", style="width: 15px; height: 15px; border: red 4px outset"/></a> 
+                                        break;
+                                }
+                                @Html.Raw("</td>");
+                            }
+                            @Html.Raw("</tr>")
+                        }
+                        <tr class="tableHeader" style="visibility: hidden">
+                            <td>Product</td>
+                            @foreach (String tableName in ViewBag.TableNamesThin)
+                            {
+                                <td ><b>@Html.Raw(tableName.Replace("Util.","").Replace("_BC",""))</b></td>
+                            }
+                        </tr>
+                    </table>
+
+                </div>
+
+            </td></tr>
+    </table>
+</div>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="btnBack" type="button" name="buttonBack" value="Back"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<b><i>Legend:</i></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="~/ABCWeb/Images/EmptySet.png", alt="View Run Detail", style="width: 15px; height: 15px; border:none"/>&nbsp;&nbsp;= no data records for this run &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="~/ABCWeb/Images/CheckMark.PNG", alt="View Run Detail", style="width: 15px; height: 15px; border:none"/>&nbsp;&nbsp;= no data variance for this run &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="~/ABCWeb/Images/Search.jpg", alt="View Run Detail", style="width: 15px; height: 15px; border: red 4px outset"/>&nbsp;&nbsp;= cash value data varied for this run [click to view differences] 
+
+
+
+<script src="~/ABCWeb/Models/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        //Button Back clicked
+        $('#btnBack').click(function () {
+            //Ignore changes
+            window.location.replace('@Url.Action("RunSummary", "BuildCompare")');
+        });
+
+        //Add Tools to menu items
+        $("#menu").append(
+            "<li>                                                                                                     \
+                <span class='commonMenuItem' style='display:inline-block; position: absolute'> Tools<br>                   \
+                    <span id='adminSubMenuDiv' class='sub_menu' style='vertical-align:top;text-align:left;font-style:italic'>          \
+                        Data Archives<br>                                                                               \
+                            <span id='currentRunArchive'>&nbsp;&nbsp;&nbsp;&nbsp;Current Run</span><br/>                                        \
+                            <span id='priorRunArchive'>&nbsp;&nbsp;&nbsp;&nbsp;Prior Run</span><br/>                                            \
+                            <span id='get7ZipRunArchive'>&nbsp;&nbsp;&nbsp;&nbsp;Get 7-Zip [Free]</span>                                        \
+                    </span>                                                                                          \
+                </span>             \
+            </li>");
+
+
+        //<li>
+        //    <span class='commonMenuItem' style="display:inline-block; position: absolute">
+        //        Admin<br>
+        //        <span id='adminSubMenuDiv' class='sub_menu' style='vertical-align:top;text-align:left;font-style:italic'>           
+        //            <span id='adminRunLog'>&nbsp;&nbsp;Run Logs</span><br/>                                                 
+        //            <span id='adminUserGroups'>&nbsp;&nbsp;User Groups</span>                                          
+        //        </span>
+        //    </span>
+        //</li>
+
+
+
+
+        //Dynamically Align the sub menus
+        //$("#toolsSubMenuDiv").offset({ left: ($("#ToolsMenuItem").offset()).left });
+        //$("#adminSubMenuDiv").offset({ left: -40 });
+
+        //If no archives available, remove menu items
+        if ('@ViewBag.CurrentArchivePath'.length == 0) {
+            $('#currentRunArchive').remove();
+        }
+        if ('@ViewBag.PriorArchivePath'.length == 0) {
+            //Remove Prior Menu Item
+            $('#priorRunArchive').remove();
+        }
+
+        //Run Archive Item clicked
+        $('[id$=RunArchive]').click(function () {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0) {
+                var archiveLocation;
+                switch (this.id.toString()) {
+                    case 'currentRunArchive':
+                        archiveLocation = 'file:' + '@ViewBag.CurrentArchivePath';
+                        break;
+                    case 'priorRunArchive':
+                        archiveLocation = 'file:' + '@ViewBag.PriorArchivePath';
+                        break;
+                    case 'get7ZipRunArchive':
+                        archiveLocation = 'http://www.7-zip.org/';
+                        break;
+                }
+                window.open(archiveLocation, '_blank');
+            }
+            else {
+                alert('Sorry, access to the Archive folders on the Network shares is only available using IE.  \n\nPlease try again using an IE browser.');
+            }
+
+        });
+    });
+
+</script>
